@@ -13,6 +13,7 @@
 
 <script>
 import Card from '../Card'
+
 export default {
 	components: {
 		Card
@@ -24,5 +25,6 @@ export default {
 .shiki {
 	background: #1a202c;
 	color:#e2e8f0;
+	min-height: 290px;
 }
 </style>
