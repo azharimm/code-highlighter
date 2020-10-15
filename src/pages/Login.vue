@@ -80,7 +80,8 @@ export default {
 		async doLogin() {
 			try {
                 await this.login({ name: this.userName });
-                this.$router.push('/');
+				this.$router.push('/');
+				this.$toast.success('Login Berhasil');
 			} catch (e) {
 				console.log(e);
 			}

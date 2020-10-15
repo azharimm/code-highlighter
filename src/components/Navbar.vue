@@ -66,6 +66,7 @@ export default {
 		doLogout() {
 			this.logout();
 			this.$router.push('/login');
+			this.$toast.success('Logout Berhasil');
 		}
 	}
 }

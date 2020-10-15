@@ -82,6 +82,7 @@ export default {
 			try {
 				await this.register({ name: this.userName });
 				this.$router.push("/");
+				this.$toast.success('Daftar Berhasil');
 			} catch (e) {
 				console.log(e);
 			}
