@@ -2,34 +2,18 @@
 	<Container class="mt-5">
 		<Row>
             <Cols class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        This is the card
-                    </div>
-                </div>
+                <Setting />
             </Cols>
             <Cols class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    This is the card
-                </div>
-            </div>
+                <InputCode />
             </Cols>
         </Row>
         <Row class="mt-3">
             <Cols class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        This is the card
-                    </div>
-                </div>
+                <ListHighlight />
             </Cols>
             <Cols class="col-md-8">
-            <div class="card">
-                <div class="card-body">
-                    This is the card
-                </div>
-            </div>
+                <ResultHighlight />
             </Cols>
         </Row>
 	</Container>
@@ -39,11 +23,19 @@
 import Container from "../components/Container";
 import Row from "../components/Row";
 import Cols from "../components/Cols";
+import Setting from '../components/home/Setting'
+import InputCode from '../components/home/InputCode'
+import ListHighlight from '../components/home/ListHighlight'
+import ResultHighlight from '../components/home/ResultHighlight'
 export default {
 	components: {
 		Container,
 		Row,
-		Cols,
+        Cols,
+        Setting,
+        InputCode,
+        ListHighlight,
+        ResultHighlight
 	},
 };
 </script>
