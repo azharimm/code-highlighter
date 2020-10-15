@@ -35,6 +35,10 @@ const actions = {
 		let response = await api.get("/options");
 		commit("SET_LIST_BAHASA", response.data.data.languages);
     },
+    async fetchListHighlight({ commit }, user) {
+        let response = await api.post('/code/list?sortBy=createdAt&sort=DESC&page=1&limit=3&highlighted=0', user);
+        commit('SET_LIST_HIGHLIGHT', response.data.data);
+    },
     setSelectedBahasa({commit}, bahasa) {
         console.log(bahasa);
         commit('SET_SELECTED_BAHASA', bahasa);
@@ -59,6 +63,9 @@ const mutations = {
     },
     SET_ROW_HIGHLIGHT(state, highlight) {
         state.settingHighlight.highlight = highlight;
+    },
+    SET_LIST_HIGHLIGHT(state, listHighlight) {
+        state.listHighlight = listHighlight;
     }
 };
 

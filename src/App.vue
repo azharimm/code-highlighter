@@ -2,7 +2,7 @@
 	<div id="app">
 		<Navbar />
 		<transition name="fade" mode="out-in">
-			<router-view></router-view>
+			<router-view :userId="userId" :isAuthenticated="isAuthenticated"></router-view>
 		</transition>
 	</div>
 </template>
@@ -10,7 +10,7 @@
 <script>
 import Navbar from "./components/Navbar";
 
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 export default {
 	name: "App",
 	components: {
@@ -19,9 +19,15 @@ export default {
 	mounted() {
 		this.fetchListBahasa();
 	},
+	computed: {
+		...mapGetters({
+			'isAuthenticated': 'auth/getIsAuthenticated',
+            'userId': 'auth/getUserId'
+		})
+	},
 	methods: {
 		...mapActions({
-			'fetchListBahasa': 'highlight/fetchListBahasa'
+			'fetchListBahasa': 'highlight/fetchListBahasa',
 		})
 	}
 };

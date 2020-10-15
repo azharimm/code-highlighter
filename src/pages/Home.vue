@@ -28,9 +28,10 @@ import InputCode from '../components/home/InputCode'
 import ListHighlight from '../components/home/ListHighlight'
 import ResultHighlight from '../components/home/ResultHighlight'
 
-import { mapGetters } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
+    props: ['userId', 'isAuthenticated'],
 	components: {
 		Container,
 		Row,
@@ -40,10 +41,14 @@ export default {
         ListHighlight,
         ResultHighlight
     },
-    computed: {
-		...mapGetters({
-			'isAuthenticated': 'auth/getIsAuthenticated',
-            'userId': 'auth/getUserId'
+    mounted() {
+        if(this.isAuthenticated) {
+            this.fetchListHighlight({user: this.userId});
+        }
+    },
+    methods: {
+		...mapActions({
+			'fetchListHighlight': 'highlight/fetchListHighlight'
 		})
 	}
 };
