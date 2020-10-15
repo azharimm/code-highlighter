@@ -29,15 +29,30 @@ const actions = {
 	async login({commit}, data) {
         try {
             let response = await api.post(`/user/login`, data);
+            if(response.data.error) {
+                throw {
+                    response: {
+                        data: 'Nama user tidak ditemukan!'
+                    },
+                    error: new Error()
+                }
+            }
             if(!response.data.success) {
-                throw new Error()
+                if(response.data.error) {
+                    throw {
+                        response: {
+                            data: 'Nama user harus diisi'
+                        },
+                        error: new Error()
+                    }
+                }
             }
             const userId = response.data.data.id;
             const userName = response.data.data.name;
             commit('SET_USER', {userId, userName});
             commit('SET_ERROR', {isError: false, errMsg: null});
         }catch(e) {
-            commit('SET_ERROR', {isError: true, errMsg: 'Nama user harus diisi'});
+            commit('SET_ERROR', {isError: true, errMsg: e.response.data});
             return Promise.reject(e);
         }
     },
