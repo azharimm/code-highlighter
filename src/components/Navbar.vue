@@ -40,6 +40,11 @@
 						Azhari
 					</router-link>
 				</li>
+				<li class="nav-item active">
+					<router-link tag="a" to="/" class="nav-link">
+						Logout
+					</router-link>
+				</li>
 			</ul>
 		</div>
 	</nav>

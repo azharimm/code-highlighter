@@ -2,9 +2,11 @@
     <Container class="mt-5">
         <Row class="row justify-content-center">
             <Cols class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Masuk ke Highlighter App</div>
-                    <div class="card-body">
+                <Card>
+                    <template v-slot:card-header>
+                        <center><h5>Masuk ke Highlighter App</h5></center>
+                    </template>
+                    <template v-slot:card-body>
                         <form action="" method="">
                             <div class="form-group row">
                                 <label for="email_address" class="col-md-4 col-form-label text-md-right">
@@ -21,8 +23,8 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
-                </div>
+                    </template>
+                </Card>
             </Cols>
         </Row>
     </Container>
@@ -32,12 +34,14 @@
 import Container from "../components/Container";
 import Row from "../components/Row";
 import Cols from "../components/Cols";
+import Card from "../components/Card";
 
 export default {
     components: {
         Container,
         Row,
-        Cols
+        Cols,
+        Card
     }    
 }
 </script>
