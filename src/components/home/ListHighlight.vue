@@ -17,7 +17,7 @@
 									? highlight.fileName
 									: "Untitled"
 							}}
-							- {{ highlight.id }}</span
+							- {{ highlight.updatedAt | formatDate }}</span
 						>
 						<span
 							class="text-danger float-right pointer"
@@ -37,6 +37,7 @@
 <script>
 import Card from "../Card";
 import { mapGetters, mapActions } from "vuex";
+import moment from 'moment';
 
 export default {
 	components: {
@@ -56,6 +57,11 @@ export default {
 			this.deleteHighlight(data).catch(e => this.$toast.error(e.response.data));
 		}
 	},
+	filters: {
+		formatDate(value) {
+			return moment(value).format('MMM Do YY, h:mm:ss')
+		}
+	}
 };
 </script>
 
@@ -64,6 +70,6 @@ export default {
 	cursor: pointer;
 }
 .list-group-item:hover {
-	background: #ccc;
+	background: #f7f7f7;
 }
 </style>
