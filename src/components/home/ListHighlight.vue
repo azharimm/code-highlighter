@@ -19,7 +19,11 @@
 							}}
 							- {{ highlight.id }}</span
 						>
-						<span class="text-danger float-right pointer">x</span>
+						<span
+							class="text-danger float-right pointer"
+							@click="deleteHighlight({id: highlight.id, user: userId})"
+							>x</span
+						>
 					</li>
 				</ul>
 			</template>
@@ -32,7 +36,7 @@
 
 <script>
 import Card from "../Card";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
 	components: {
@@ -40,7 +44,13 @@ export default {
 	},
 	computed: {
 		...mapGetters({
+			userId: 'auth/getUserId',
 			listHighlight: "highlight/listHighlight",
+		}),
+	},
+	methods: {
+		...mapActions({
+			deleteHighlight: "highlight/deleteHighlight",
 		}),
 	},
 };

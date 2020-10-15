@@ -48,6 +48,23 @@ const actions = {
     },
     setRowHighlight({ commit }, highlight) {
         commit('SET_ROW_HIGHLIGHT', highlight);
+    },
+    async deleteHighlight({ commit }, data ) {
+        try {
+            let response = await api.post('https://highlight-code-api.jefrydco.vercel.app/api/code/delete', data);
+            if(!response.data.success) {
+                throw {
+                    response: {
+                        data: 'Terjadi kesalahan! silakan coba lagi'
+                    },
+                    error: new Error()
+                }
+            }
+            commit('DELETE_HIGHLIGHT', data);
+        }catch(e) {
+            commit('SET_ERROR', {isErr: true, errMsg: e.response.data});
+            return Promise.reject(e)
+        }
     }
 };
 
@@ -66,6 +83,14 @@ const mutations = {
     },
     SET_LIST_HIGHLIGHT(state, listHighlight) {
         state.listHighlight = listHighlight;
+    },
+    SET_ERROR(state, {isErr, errMsg}) {
+        state.error.isError = isErr;
+        state.error.errMsg = errMsg;
+    },
+    DELETE_HIGHLIGHT(state, { id }) {
+        let newListHighlight = state.listHighlight.filter(lh => lh.id != id);
+        state.listHighlight = newListHighlight
     }
 };
 
