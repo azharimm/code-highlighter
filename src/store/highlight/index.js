@@ -37,7 +37,13 @@ const actions = {
     },
     async fetchListHighlight({ commit }, user) {
         let response = await api.post('/code/list?sortBy=createdAt&sort=DESC&page=1&limit=3&highlighted=0', user);
-        commit('SET_LIST_HIGHLIGHT', response.data.data);
+        let data;
+        if(response.data.error) {
+            data = [];
+        }else {
+            data = response.data.data;
+        }
+        commit('SET_LIST_HIGHLIGHT', data);
     },
     setSelectedBahasa({commit}, bahasa) {
         console.log(bahasa);
@@ -61,6 +67,7 @@ const actions = {
                 }
             }
             commit('DELETE_HIGHLIGHT', data);
+            commit('SET_ERROR', {isErr: false, errMsg: null});
         }catch(e) {
             commit('SET_ERROR', {isErr: true, errMsg: e.response.data});
             return Promise.reject(e)

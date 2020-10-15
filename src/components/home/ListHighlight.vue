@@ -21,7 +21,7 @@
 						>
 						<span
 							class="text-danger float-right pointer"
-							@click="deleteHighlight({id: highlight.id, user: userId})"
+							@click="doDelete({id: highlight.id, user: userId})"
 							>x</span
 						>
 					</li>
@@ -52,6 +52,9 @@ export default {
 		...mapActions({
 			deleteHighlight: "highlight/deleteHighlight",
 		}),
+		doDelete(data) {
+			this.deleteHighlight(data).catch(e => this.$toast.error(e.response.data));
+		}
 	},
 };
 </script>
