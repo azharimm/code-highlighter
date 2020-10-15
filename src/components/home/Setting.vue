@@ -1,9 +1,9 @@
 <template>
-	<div class="card">
-		<div class="card-header">
+	<Card style="min-height: 405px;">
+		<template v-slot:card-header>
 			<h5>Pengaturan Highlighter</h5>
-		</div>
-		<div class="card-body">
+		</template>
+		<template v-slot:card-body>
 			<form action="#">
 				<div class="form-group">
 					<label for="">Pilih Bahasa Pemrograman</label>
@@ -22,6 +22,15 @@
 					<small class="text-muted">contoh: 1, 2, atau 1 - 3</small>
 				</div>
 			</form>
-		</div>
-	</div>
+		</template>
+	</Card>
 </template>
+
+<script>
+import Card from '../Card'
+export default {
+	components: {
+		Card
+	}
+}
+</script>

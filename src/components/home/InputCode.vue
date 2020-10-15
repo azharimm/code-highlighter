@@ -1,9 +1,9 @@
 <template>
-	<div class="card" style="min-height: 400px;">
-		<div class="card-header">
+	<Card style="min-height: 405px;">
+		<template v-slot:card-header>
 			<h5>Input Kode</h5>
-		</div>
-		<div class="card-body">
+		</template>
+		<template v-slot:card-body>
 			<form action="">
 				<div class="form-group">
 					<textarea
@@ -30,6 +30,15 @@
 					</div>
 				</div>
 			</form>
-		</div>
-	</div>
+		</template>
+	</Card>
 </template>
+
+<script>
+import Card from '../Card'
+export default {
+	components: {
+		Card
+	}
+}
+</script>
