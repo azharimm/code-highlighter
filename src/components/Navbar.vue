@@ -25,27 +25,48 @@
 
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item active">
+				<li class="nav-item active" v-if="!isAuthenticated">
 					<router-link tag="a" to="/login" class="nav-link">
 						Login
 					</router-link>
 				</li>
-				<li class="nav-item active">
+				<li class="nav-item active" v-if="!isAuthenticated">
 					<router-link tag="a" to="/register" class="nav-link">
 						Register
 					</router-link>
 				</li>
-				<li class="nav-item active">
-					<router-link tag="a" to="/" class="nav-link">
-						Azhari
-					</router-link>
+				<li class="nav-item active" v-if="isAuthenticated">
+					<a href="#" class="nav-link">
+						{{ userName }}
+					</a>
 				</li>
-				<li class="nav-item active">
-					<router-link tag="a" to="/" class="nav-link">
+				<li class="nav-item active" v-if="isAuthenticated">
+					<a type="button" @click.prevent="doLogout" class="nav-link">
 						Logout
-					</router-link>
+					</a>
 				</li>
 			</ul>
 		</div>
 	</nav>
 </template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+export default {
+	computed: {
+		...mapGetters({
+			'isAuthenticated': 'auth/getIsAuthenticated',
+			'userName': 'auth/getUserName'
+		})
+	},
+	methods: {
+		...mapActions({
+			'logout': 'auth/logout'
+		}),
+		doLogout() {
+			this.logout();
+			this.$router.push('/');
+		}
+	}
+}
+</script>
