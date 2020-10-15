@@ -9,10 +9,10 @@
             </Cols>
         </Row>
         <Row class="mt-3">
-            <Cols class="col-md-4">
+            <Cols class="col-md-4" v-if="isAuthenticated">
                 <ListHighlight />
             </Cols>
-            <Cols class="col-md-8">
+            <Cols class="col-md-8" :class="{'offset-md-4': !isAuthenticated}">
                 <ResultHighlight />
             </Cols>
         </Row>
@@ -27,6 +27,9 @@ import Setting from '../components/home/Setting'
 import InputCode from '../components/home/InputCode'
 import ListHighlight from '../components/home/ListHighlight'
 import ResultHighlight from '../components/home/ResultHighlight'
+
+import { mapGetters } from 'vuex';
+
 export default {
 	components: {
 		Container,
@@ -36,6 +39,12 @@ export default {
         InputCode,
         ListHighlight,
         ResultHighlight
-	},
+    },
+    computed: {
+		...mapGetters({
+			'isAuthenticated': 'auth/getIsAuthenticated',
+            'userId': 'auth/getUserId'
+		})
+	}
 };
 </script>
