@@ -9,7 +9,7 @@
 					<textarea
 						class="form-control"
 						cols="30"
-						rows="8"
+						rows="9"
 					></textarea>
 				</div>
 				<div class="form-group">
