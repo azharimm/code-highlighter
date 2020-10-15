@@ -1,11 +1,9 @@
 const state = {
-    msg: 'Hai Highlight'
+    //
 };
 
 const getters = {
-    getMsg(state) {
-        return state.msg;
-    }
+    //
 }
 
 const actions = {

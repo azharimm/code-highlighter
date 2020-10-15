@@ -65,7 +65,7 @@ export default {
 		}),
 		doLogout() {
 			this.logout();
-			this.$router.push('/');
+			this.$router.push('/login');
 		}
 	}
 }
