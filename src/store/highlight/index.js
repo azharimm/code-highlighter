@@ -122,26 +122,27 @@ const actions = {
 					code: data.code,
 				});
 				commit("SET_RESULT", response.data.data);
-				return;
-			}else {
-                api.post(
-                    `api?${params}`,
-                    { code: data.code },
-                    {
-                        responseType: "arraybuffer",
-                    }
-                ).then((response) => {
-                    let fileURL = window.URL.createObjectURL(
-                        new Blob([response.data])
-                    );
-                    let fileLink = document.createElement("a");
-                    let name = data.fileName ? data.fileName : 'Untitled';
-                    fileLink.href = fileURL;
-                    fileLink.setAttribute("download", `${name}.png`);
-                    document.body.appendChild(fileLink);
-                    fileLink.click();
-                });
+                return;
             }
+            delete data.is_unduh;
+			
+            api.post(
+                `api?${params}`,
+                { code: data.code },
+                {
+                    responseType: "arraybuffer",
+                }
+            ).then((response) => {
+                let fileURL = window.URL.createObjectURL(
+                    new Blob([response.data])
+                );
+                let fileLink = document.createElement("a");
+                let name = data.fileName ? data.fileName : 'Untitled';
+                fileLink.href = fileURL;
+                fileLink.setAttribute("download", `${name}.png`);
+                document.body.appendChild(fileLink);
+                fileLink.click();
+            });
 		} catch (e) {
 			console.log(e);
 			return Promise.reject(e);
