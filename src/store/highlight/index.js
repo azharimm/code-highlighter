@@ -88,6 +88,7 @@ const actions = {
     async generateHighlight({ commit }, data) {
         try {
             let params = '';
+            commit('SET_RESULT', null);
             if(data.lang == null || data.lang == '') {
                 Vue.$toast.warning('Silakan pilih bahasa pemrograman!', {timeout: 1000, position: 'top-center'});
                 return;

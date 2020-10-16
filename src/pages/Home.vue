@@ -12,7 +12,7 @@
             <Cols class="col-md-4" v-if="isAuthenticated">
                 <ListHighlight />
             </Cols>
-            <Cols class="col-md-8" :class="{'offset-md-4': !isAuthenticated}">
+            <Cols class="col-md-8" :class="{'offset-md-4': !isAuthenticated}" v-show="result">
                 <ResultHighlight />
             </Cols>
         </Row>
@@ -28,7 +28,7 @@ import InputCode from '../components/home/InputCode'
 import ListHighlight from '../components/home/ListHighlight'
 import ResultHighlight from '../components/home/ResultHighlight'
 
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
     props: ['userId', 'isAuthenticated'],
@@ -45,6 +45,11 @@ export default {
         if(this.isAuthenticated) {
             this.fetchListHighlight({user: this.userId});
         }
+    },
+    computed: {
+        ...mapGetters({
+            result: 'highlight/result'
+        })
     },
     methods: {
 		...mapActions({
