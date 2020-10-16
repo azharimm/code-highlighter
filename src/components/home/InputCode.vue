@@ -23,6 +23,7 @@
 						<button
 							type="button"
 							class="btn btn-secondary"
+							v-if="result"
 							@click.prevent="reset"
 						>
 							Reset
@@ -30,11 +31,16 @@
 						<button
 							type="button"
 							class="btn btn-success"
-							v-if="isAuthenticated"
+							v-if="isAuthenticated && result"
 						>
 							Simpan
 						</button>
-						<button type="button" class="btn btn-primary">
+						<button
+							type="button"
+							class="btn btn-primary"
+							v-if="result"
+							@click.prevent="unduh"
+						>
 							Unduh
 						</button>
 					</div>
@@ -54,16 +60,23 @@ export default {
 	computed: {
 		...mapGetters({
 			settingHighlight: 'highlight/settingHighlight',
-			isAuthenticated: 'highlight/getIsAuthenticated'
+			isAuthenticated: 'auth/getIsAuthenticated',
+			result: 'highlight/result'
 		})
 	},
 	methods: {
 		...mapActions({
 			setCode: 'highlight/setCode',
-			reset: 'highlight/reset'
+			reset: 'highlight/reset',
+			generateHighlight: 'highlight/generateHighlight'
 		}),
 		saveCode() {
 			this.setCode({data: this.settingHighlight});
+		},
+		unduh() {
+			let data = this.settingHighlight;
+			data.is_unduh = true;
+			this.generateHighlight(data);
 		}
 	}
 }

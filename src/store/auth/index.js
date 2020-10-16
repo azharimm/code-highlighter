@@ -28,7 +28,7 @@ const getters = {
 const actions = {
 	async login({commit}, data) {
         try {
-            let response = await api.post(`/user/login`, data);
+            let response = await api.post(`api/user/login`, data);
             if(response.data.error) {
                 throw {
                     response: {
@@ -58,7 +58,7 @@ const actions = {
     },
     async register({commit}, data) {
         try {
-            let response = await api.post(`/user/register`, data);
+            let response = await api.post(`api/user/register`, data);
             if(response.data.error) {
                 throw {
                     response: {
