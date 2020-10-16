@@ -54,7 +54,7 @@ import Row from "../components/Row";
 import Cols from "../components/Cols";
 import Card from "../components/Card";
 
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 
 export default {
 	data() {
@@ -73,9 +73,18 @@ export default {
 			error: "auth/getError",
 		}),
 	},
+	beforeRouteEnter(to, from, next) {
+		// eslint-disable-next-line no-unused-vars
+		next((vm) => {
+			vm.setError({isError: false, errMsg: null});
+		});
+	},
 	methods: {
 		...mapActions({
 			login: "auth/login",
+		}),
+		...mapMutations({
+			setError: 'auth/SET_ERROR'
 		}),
 		async doLogin() {
 			try {
