@@ -49,7 +49,7 @@ const actions = {
 	},
 	async fetchListHighlight({ commit }, user) {
 		let response = await api.post(
-			"/api/code/list?sortBy=createdAt&sort=DESC&page=1&limit=3&highlighted=0",
+			"/api/code/list?sortBy=createdAt&sort=DESC&highlighted=0",
 			user
 		);
 		let data;
@@ -63,6 +63,7 @@ const actions = {
 	async fetchSingleHighlight({ commit, dispatch }, data) {
 		let response = await api.post('api/code/single?highlighted=0', data);
 		commit('SET_SINGLE_HIGHLIGHT', response.data.data);
+		commit('SET_IS_EDIT', response.data.data);
 		dispatch('setCode', {data: response.data.data});
 	},
 	setSelectedBahasa({ commit, dispatch }, { lang, data }) {
@@ -178,11 +179,12 @@ const actions = {
             });
         }
 	},
-	async updateHighlight({ dispatch }, data) {
+	async updateHighlight({ commit, dispatch }, data) {
 		if(data.content.highlight == null || data.content.highlight == '') delete data.content.highlight
         if(data.content.fileName == null || data.content.fileName == '') delete data.content.fileName
         let response = await api.post('api/code/edit', data);
-        dispatch('fetchListHighlight', {user: data.user})
+		dispatch('fetchListHighlight', {user: data.user})
+		commit('SET_IS_EDIT', {isEdit: false, id: null});
         if(response.data.success) {
             Vue.$toast.success("Highlight berhasil diubah!", {
                 timeout: 1000,
@@ -244,6 +246,8 @@ const mutations = {
 		state.settingHighlight.fileName = data.fileName;
 		state.settingHighlight.highlight = data.highlight;
 		state.settingHighlight.lang = data.lang;
+	},
+	SET_IS_EDIT(state, data) {
 		state.edit.isEdit = true;
 		state.edit.id = data.id;
 	}

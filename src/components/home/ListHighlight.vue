@@ -10,9 +10,10 @@
 						class="list-group-item"
 						v-for="highlight in listHighlight"
 						:key="highlight.id"
-						@click.prevent="fetchSingleHighlight({id: highlight.id, user: userId})"
 					>
-						<span class="pointer"
+						<span
+							class="pointer"
+							@click.prevent="fetchSingleHighlight({id: highlight.id, user: userId})"
 							>{{
 								highlight.fileName
 									? highlight.fileName
