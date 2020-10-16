@@ -1,5 +1,5 @@
 <template>
-	<Card style="min-height: 405px;">
+	<Card style="min-height: 405px">
 		<template v-slot:card-header>
 			<h5>Input Kode</h5>
 		</template>
@@ -31,10 +31,18 @@
 						<button
 							type="button"
 							class="btn btn-success"
-							v-if="isAuthenticated && result"
+							v-if="isAuthenticated && result && !edit.isEdit"
 							@click.prevent="save"
 						>
 							Simpan
+						</button>
+						<button
+							type="button"
+							class="btn btn-warning"
+							v-if="isAuthenticated && result && edit.isEdit"
+							@click.prevent="update"
+						>
+							Update
 						</button>
 						<button
 							type="button"
@@ -52,29 +60,31 @@
 </template>
 
 <script>
-import Card from '../Card'
-import { mapActions, mapGetters } from 'vuex';
+import Card from "../Card";
+import { mapActions, mapGetters } from "vuex";
 export default {
 	components: {
-		Card
+		Card,
 	},
 	computed: {
 		...mapGetters({
-			settingHighlight: 'highlight/settingHighlight',
-			isAuthenticated: 'auth/getIsAuthenticated',
-			userId: 'auth/getUserId',
-			result: 'highlight/result'
-		})
+			settingHighlight: "highlight/settingHighlight",
+			isAuthenticated: "auth/getIsAuthenticated",
+			userId: "auth/getUserId",
+			result: "highlight/result",
+			edit: "highlight/edit",
+		}),
 	},
 	methods: {
 		...mapActions({
-			setCode: 'highlight/setCode',
-			reset: 'highlight/reset',
-			generateHighlight: 'highlight/generateHighlight',
-			storeHighlight: 'highlight/storeHighlight'
+			setCode: "highlight/setCode",
+			reset: "highlight/reset",
+			generateHighlight: "highlight/generateHighlight",
+			storeHighlight: "highlight/storeHighlight",
+			updateHighlight: "highlight/updateHighlight",
 		}),
 		saveCode() {
-			this.setCode({data: this.settingHighlight});
+			this.setCode({ data: this.settingHighlight });
 		},
 		unduh() {
 			let data = this.settingHighlight;
@@ -82,8 +92,18 @@ export default {
 			this.generateHighlight(data);
 		},
 		save() {
-			this.storeHighlight({user: this.userId, content: this.settingHighlight});
-		}
-	}
-}
+			this.storeHighlight({
+				user: this.userId,
+				content: this.settingHighlight,
+			});
+		},
+		update() {
+			this.updateHighlight({
+				id: this.edit.id,
+				user: this.userId,
+				content: this.settingHighlight,
+			});
+		},
+	},
+};
 </script>

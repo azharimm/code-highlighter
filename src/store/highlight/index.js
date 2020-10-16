@@ -177,7 +177,23 @@ const actions = {
                 timeout: 1000,
             });
         }
-    },
+	},
+	async updateHighlight({ dispatch }, data) {
+		if(data.content.highlight == null || data.content.highlight == '') delete data.content.highlight
+        if(data.content.fileName == null || data.content.fileName == '') delete data.content.fileName
+        let response = await api.post('api/code/edit', data);
+        dispatch('fetchListHighlight', {user: data.user})
+        if(response.data.success) {
+            Vue.$toast.success("Highlight berhasil diubah!", {
+                timeout: 1000,
+            });
+            dispatch('reset');
+        }else {
+            Vue.$toast.success("Terjadi kesalahan! highlight tidak disimpan!", {
+                timeout: 1000,
+            });
+        }
+	},
 	reset({ commit }) {
 		commit("RESET_SETTING_HIGHLIGHT");
 	},
