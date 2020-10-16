@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 export default {
 	computed: {
 		...mapGetters({
@@ -63,10 +63,14 @@ export default {
 		...mapActions({
 			'logout': 'auth/logout'
 		}),
+		...mapMutations({
+			setHighlight: 'highlight/SET_LIST_HIGHLIGHT'
+		}),
 		doLogout() {
 			this.logout();
 			this.$router.push('/login');
 			this.$toast.success('Logout Berhasil');
+			this.setHighlight([]);
 		}
 	}
 }
