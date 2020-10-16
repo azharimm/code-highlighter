@@ -82,7 +82,10 @@ const actions = {
 				};
 			}
 			commit("DELETE_HIGHLIGHT", data);
-			commit("SET_ERROR", { isErr: false, errMsg: null });
+            commit("SET_ERROR", { isErr: false, errMsg: null });
+            Vue.$toast.success("Highlight berhasil dihapus!", {
+                timeout: 1000,
+            });
 		} catch (e) {
 			commit("SET_ERROR", { isErr: true, errMsg: e.response.data });
 			return Promise.reject(e);
@@ -147,7 +150,23 @@ const actions = {
 			console.log(e);
 			return Promise.reject(e);
 		}
-	},
+    },
+    async storeHighlight({ dispatch }, data) {
+        if(data.content.highlight == null || data.content.highlight == '') delete data.content.highlight
+        if(data.content.fileName == null || data.content.fileName == '') delete data.content.fileName
+        let response = await api.post('api/code/store', data);
+        dispatch('fetchListHighlight', {user: data.user})
+        if(response.data.success) {
+            Vue.$toast.success("Highlight berhasil disimpan!", {
+                timeout: 1000,
+            });
+            dispatch('reset');
+        }else {
+            Vue.$toast.success("Terjadi kesalahan! highlight tidak disimpan!", {
+                timeout: 1000,
+            });
+        }
+    },
 	reset({ commit }) {
 		commit("RESET_SETTING_HIGHLIGHT");
 	},
@@ -188,7 +207,7 @@ const mutations = {
 		state.settingHighlight.lang = null;
 		state.settingHighlight.code = null;
 		state.settingHighlight.fileName = null;
-		state.settingHighlight.code = null;
+		state.settingHighlight.highlight = null;
 		state.result = null;
 	},
 };

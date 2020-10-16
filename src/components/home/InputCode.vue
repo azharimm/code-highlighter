@@ -32,6 +32,7 @@
 							type="button"
 							class="btn btn-success"
 							v-if="isAuthenticated && result"
+							@click.prevent="save"
 						>
 							Simpan
 						</button>
@@ -61,6 +62,7 @@ export default {
 		...mapGetters({
 			settingHighlight: 'highlight/settingHighlight',
 			isAuthenticated: 'auth/getIsAuthenticated',
+			userId: 'auth/getUserId',
 			result: 'highlight/result'
 		})
 	},
@@ -68,7 +70,8 @@ export default {
 		...mapActions({
 			setCode: 'highlight/setCode',
 			reset: 'highlight/reset',
-			generateHighlight: 'highlight/generateHighlight'
+			generateHighlight: 'highlight/generateHighlight',
+			storeHighlight: 'highlight/storeHighlight'
 		}),
 		saveCode() {
 			this.setCode({data: this.settingHighlight});
@@ -77,6 +80,9 @@ export default {
 			let data = this.settingHighlight;
 			data.is_unduh = true;
 			this.generateHighlight(data);
+		},
+		save() {
+			this.storeHighlight({user: this.userId, content: this.settingHighlight});
 		}
 	}
 }

@@ -1,9 +1,9 @@
 import api from '../../api';
 
 const state = {
-    userId: null,
-    userName: null,
-    isAuthenticated: false,
+    userId: "OBBT4tTgoOKeXwMUlKLv",
+    userName: "jbwock",
+    isAuthenticated: true,
     error: {
         isError: false,
         errMsg: null
