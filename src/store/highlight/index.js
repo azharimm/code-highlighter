@@ -11,7 +11,10 @@ const state = {
 		code: null,
 	},
 	result: null,
-	isEdit: false,
+	edit: {
+		isEdit: false,
+		id: null
+	},
 	error: {
 		isError: false,
 		errMsg: null,
@@ -30,6 +33,9 @@ const getters = {
 	},
 	result(state) {
 		return state.result;
+	},
+	edit(state) {
+		return state.edit;
 	},
 	error(state) {
 		return state.error;
@@ -53,6 +59,11 @@ const actions = {
 			data = response.data.data;
 		}
 		commit("SET_LIST_HIGHLIGHT", data);
+	},
+	async fetchSingleHighlight({ commit, dispatch }, data) {
+		let response = await api.post('api/code/single?highlighted=0', data);
+		commit('SET_SINGLE_HIGHLIGHT', response.data.data);
+		dispatch('setCode', {data: response.data.data});
 	},
 	setSelectedBahasa({ commit, dispatch }, { lang, data }) {
 		commit("SET_SELECTED_BAHASA", lang);
@@ -209,7 +220,17 @@ const mutations = {
 		state.settingHighlight.fileName = null;
 		state.settingHighlight.highlight = null;
 		state.result = null;
+		state.edit.isEdit = false;
+		state.edit.edit = null;
 	},
+	SET_SINGLE_HIGHLIGHT(state, data) {
+		state.settingHighlight.code = data.code;
+		state.settingHighlight.fileName = data.fileName;
+		state.settingHighlight.highlight = data.highlight;
+		state.settingHighlight.lang = data.lang;
+		state.edit.isEdit = true;
+		state.edit.id = data.id;
+	}
 };
 
 export default {

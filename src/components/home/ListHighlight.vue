@@ -10,6 +10,7 @@
 						class="list-group-item"
 						v-for="highlight in listHighlight"
 						:key="highlight.id"
+						@click.prevent="fetchSingleHighlight({id: highlight.id, user: userId})"
 					>
 						<span class="pointer"
 							>{{
@@ -17,8 +18,8 @@
 									? highlight.fileName
 									: "Untitled"
 							}}
-							- {{ highlight.updatedAt | formatDate }}</span
-						>
+							- <span style="font-size: 12px;">{{ highlight.updatedAt | formatDate }}</span>
+						</span>
 						<span
 							class="text-danger float-right pointer"
 							@click="doDelete({id: highlight.id, user: userId})"
@@ -52,6 +53,7 @@ export default {
 	methods: {
 		...mapActions({
 			deleteHighlight: "highlight/deleteHighlight",
+			fetchSingleHighlight: "highlight/fetchSingleHighlight"
 		}),
 		doDelete(data) {
 			this.deleteHighlight(data).catch(e => this.$toast.error(e.response.data));
