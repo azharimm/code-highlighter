@@ -20,10 +20,18 @@
 						role="group"
 						aria-label="Basic example"
 					>
-						<button type="button" class="btn btn-secondary">
+						<button
+							type="button"
+							class="btn btn-secondary"
+							@click.prevent="reset"
+						>
 							Reset
 						</button>
-						<button type="button" class="btn btn-success">
+						<button
+							type="button"
+							class="btn btn-success"
+							v-if="isAuthenticated"
+						>
 							Simpan
 						</button>
 						<button type="button" class="btn btn-primary">
@@ -45,12 +53,14 @@ export default {
 	},
 	computed: {
 		...mapGetters({
-			settingHighlight: 'highlight/settingHighlight'
+			settingHighlight: 'highlight/settingHighlight',
+			isAuthenticated: 'highlight/getIsAuthenticated'
 		})
 	},
 	methods: {
 		...mapActions({
-			setCode: 'highlight/setCode'
+			setCode: 'highlight/setCode',
+			reset: 'highlight/reset'
 		}),
 		saveCode() {
 			this.setCode({data: this.settingHighlight});

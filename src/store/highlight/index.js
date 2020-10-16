@@ -111,6 +111,9 @@ const actions = {
             console.log(e)
             return Promise.reject(e);
         }
+    },
+    reset({ commit }) {
+        commit('RESET_SETTING_HIGHLIGHT');
     }
 };
 
@@ -144,6 +147,13 @@ const mutations = {
     DELETE_HIGHLIGHT(state, { id }) {
         let newListHighlight = state.listHighlight.filter(lh => lh.id != id);
         state.listHighlight = newListHighlight
+    },
+    RESET_SETTING_HIGHLIGHT(state) {
+        state.settingHighlight.lang = null;
+        state.settingHighlight.code = null;
+        state.settingHighlight.fileName = null;
+        state.settingHighlight.code = null;
+        state.result = null;
     }
 };
 
