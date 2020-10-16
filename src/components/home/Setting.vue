@@ -33,7 +33,7 @@
 						type="text"
 						class="form-control"
 						v-model="settingHighlight.fileName"
-						@keyup="saveFileName"
+						@input="saveFileName"
 					/>
 					<small class="text-muted">contoh: app.js</small>
 				</div>
@@ -43,7 +43,7 @@
 						type="text"
 						class="form-control"
 						v-model="settingHighlight.highlight"
-						@keyup="saveHighlight"
+						@input="saveHighlight"
 					/>
 					<small class="text-muted">contoh: 1, 2, atau 1 - 3</small>
 				</div>
@@ -73,13 +73,13 @@ export default {
 			setRowHighlight: 'highlight/setRowHighlight'
 		}),
 		selectBahasa(e) {
-			this.setSelectedBahasa(e.target.value);
+			this.setSelectedBahasa({lang: e.target.value, data: this.settingHighlight});
 		},
 		saveFileName() {
-			this.setFileName(this.settingHighlight.fileName);
+			this.setFileName({data: this.settingHighlight});
 		},
 		saveHighlight() {
-			this.setRowHighlight(this.settingHighlight.highlight);
+			this.setRowHighlight({data: this.settingHighlight});
 		}
 	},
 };

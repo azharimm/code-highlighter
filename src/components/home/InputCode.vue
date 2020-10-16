@@ -10,6 +10,8 @@
 						class="form-control"
 						cols="30"
 						rows="9"
+						v-model="settingHighlight.code"
+						@input="saveCode"
 					></textarea>
 				</div>
 				<div class="form-group">
@@ -36,9 +38,23 @@
 
 <script>
 import Card from '../Card'
+import { mapActions, mapGetters } from 'vuex';
 export default {
 	components: {
 		Card
+	},
+	computed: {
+		...mapGetters({
+			settingHighlight: 'highlight/settingHighlight'
+		})
+	},
+	methods: {
+		...mapActions({
+			setCode: 'highlight/setCode'
+		}),
+		saveCode() {
+			this.setCode({data: this.settingHighlight});
+		}
 	}
 }
 </script>

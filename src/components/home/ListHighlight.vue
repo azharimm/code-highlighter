@@ -59,7 +59,7 @@ export default {
 	},
 	filters: {
 		formatDate(value) {
-			return moment(value).format('MMM Do YY, h:mm:ss')
+			return moment(value).format('MMM Do YY, h:mm a')
 		}
 	}
 };

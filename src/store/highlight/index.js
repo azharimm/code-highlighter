@@ -1,3 +1,4 @@
+import Vue from "vue";
 import api from "../../api";
 
 const state = {
@@ -7,7 +8,9 @@ const state = {
         lang: null,
         fileName: null,
         highlight: null,
+        code: null
     },
+    result: null,
 	isEdit: false,
 	error: {
 		isError: false,
@@ -25,6 +28,9 @@ const getters = {
 	settingHighlight(state) {
 		return state.settingHighlight;
     },
+    result(state) {
+        return state.result;
+    },
 	error(state) {
 		return state.error;
 	},
@@ -32,11 +38,11 @@ const getters = {
 
 const actions = {
 	async fetchListBahasa({ commit }) {
-		let response = await api.get("/options");
+		let response = await api.get("/api/options");
 		commit("SET_LIST_BAHASA", response.data.data.languages);
     },
     async fetchListHighlight({ commit }, user) {
-        let response = await api.post('/code/list?sortBy=createdAt&sort=DESC&page=1&limit=3&highlighted=0', user);
+        let response = await api.post('/api/code/list?sortBy=createdAt&sort=DESC&page=1&limit=3&highlighted=0', user);
         let data;
         if(response.data.error) {
             data = [];
@@ -45,19 +51,25 @@ const actions = {
         }
         commit('SET_LIST_HIGHLIGHT', data);
     },
-    setSelectedBahasa({commit}, bahasa) {
-        console.log(bahasa);
-        commit('SET_SELECTED_BAHASA', bahasa);
+    setSelectedBahasa({commit, dispatch}, { lang, data }) {
+        commit('SET_SELECTED_BAHASA', lang);
+        dispatch('generateHighlight', data);
     },
-    setFileName({ commit }, fileName) {
-        commit('SET_FILE_NAME', fileName);
+    setFileName({ commit, dispatch }, { data }) {
+        commit('SET_FILE_NAME', data.fileName);
+        dispatch('generateHighlight', data);
     },
-    setRowHighlight({ commit }, highlight) {
-        commit('SET_ROW_HIGHLIGHT', highlight);
+    setRowHighlight({ commit, dispatch }, { data }) {
+        commit('SET_ROW_HIGHLIGHT', data.highlight);
+        dispatch('generateHighlight', data);
+    },
+    setCode({ commit, dispatch }, { data }) {
+        commit('SET_CODE', data);
+        dispatch('generateHighlight', data);
     },
     async deleteHighlight({ commit }, data ) {
         try {
-            let response = await api.post('https://highlight-code-api.jefrydco.vercel.app/api/code/delete', data);
+            let response = await api.post('api/code/delete', data);
             if(!response.data.success) {
                 throw {
                     response: {
@@ -71,6 +83,32 @@ const actions = {
         }catch(e) {
             commit('SET_ERROR', {isErr: true, errMsg: e.response.data});
             return Promise.reject(e)
+        }
+    },
+    async generateHighlight({ commit }, data) {
+        try {
+            let params = '';
+            if(data.lang == null || data.lang == '') {
+                Vue.$toast.warning('Silakan pilih bahasa pemrograman!', {timeout: 1000, position: 'top-center'});
+                return;
+            }
+            if(data.code == null || data.code == '') {
+                Vue.$toast.warning('Silakan isi kode program!', {timeout: 1000, position: 'top-center'});
+                return;
+            }
+            params = params + 'lang='+data.lang;
+            if(data.fileName != null && data.fileName != '') {
+                params = params + '&fileName='+data.fileName;
+            }
+            if(data.highlight != null && data.highlight != '') {
+                params = params + '&highlight='+data.highlight;
+            }
+        
+            let response = await api.post(`api?${params}`, {code: data.code});
+            commit('SET_RESULT', response.data.data);
+        }catch(e) {
+            console.log(e)
+            return Promise.reject(e);
         }
     }
 };
@@ -87,6 +125,13 @@ const mutations = {
     },
     SET_ROW_HIGHLIGHT(state, highlight) {
         state.settingHighlight.highlight = highlight;
+    },
+    SET_CODE(state, data) {
+        const { code } = data;
+        state.settingHighlight.code = code.toString();
+    },
+    SET_RESULT(state, result) {
+        state.result = result;
     },
     SET_LIST_HIGHLIGHT(state, listHighlight) {
         state.listHighlight = listHighlight;
