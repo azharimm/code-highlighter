@@ -3,5 +3,5 @@
 - npm install / yarn install
 
 # Screenshot
-- Demo : https://translate-b92a0.web.app/
+- Demo : https://code-highlighter-6047e.web.app/
 ![Home](https://raw.githubusercontent.com/azharimm/code-highlighter/master/code-highlighter.gif)
